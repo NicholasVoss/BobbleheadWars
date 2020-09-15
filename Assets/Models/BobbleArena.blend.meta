@@ -500,7 +500,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Main Texture
-    second: {fileID: 2100000, guid: 466ac4f13b50a2943b92cca859d3f568, type: 2}
+    second: {fileID: 2100000, guid: e8cf5b3d504b04a09a3d13bd4720c463, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -513,9 +513,9 @@ ModelImporter:
     second: {fileID: 2100000, guid: 99c9bbd5ae1bb7a44b98eac1968b8fef, type: 2}
   materials:
     materialImportMode: 1
-    materialName: 2
-    materialSearch: 0
-    materialLocation: 0
+    materialName: 1
+    materialSearch: 2
+    materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
