@@ -323,12 +323,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Main Texture
-    second: {fileID: 2100000, guid: 43f02960a934d0746a31be0972d1a1bf, type: 2}
+    second: {fileID: 2100000, guid: a574e12c200cf41d188d9b8639bec4e7, type: 2}
   materials:
     materialImportMode: 1
     materialName: 2
-    materialSearch: 0
-    materialLocation: 0
+    materialSearch: 2
+    materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -382,7 +382,7 @@ ModelImporter:
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
-    tangentImportMode: 3
+    tangentImportMode: 2
     normalCalculationMode: 0
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
     blendShapeNormalImportMode: 1
