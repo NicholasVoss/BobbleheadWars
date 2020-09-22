@@ -15,6 +15,7 @@ public class Gun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //shoots when mouse is clicked
         if (Input.GetMouseButtonDown(0))
         {
             if (!IsInvoking("fireBullet"))
