@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //move player cahracter
+        //move player character based on player input
         Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"),
             0, Input.GetAxis("Vertical"));
         characterController.SimpleMove(moveDirection * moveSpeed);
@@ -46,6 +46,7 @@ public class PlayerController : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         UnityEngine.Debug.DrawRay(ray.origin, ray.direction * 1000, Color.green);
 
+        //find where the mouse is pointing
         if(Physics.Raycast(ray, out hit, 1000, layerMask,
             QueryTriggerInteraction.Ignore))
         {
@@ -55,7 +56,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        //find where mouse is pointing
+        //set the target position to the place the mouse is pointing
         Vector3 targetPosition = new Vector3(hit.point.x,
             transform.position.y, hit.point.z);
         //turn player towards mouse

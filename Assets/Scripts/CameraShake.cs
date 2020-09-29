@@ -12,6 +12,7 @@ public class CameraShake : MonoBehaviour {
 
     void Update() 
     {
+        //generate next position and rotation the camera will shake to
         if (shakeIntensity > 0) 
         {
             transform.position = originPosition + Random.insideUnitSphere * shakeIntensity;
@@ -24,6 +25,7 @@ public class CameraShake : MonoBehaviour {
         }
     }
 
+  //make camera start shaking
   public void Shake() 
   {
       originPosition = transform.position;

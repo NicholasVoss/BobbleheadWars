@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
             {
                 List<int> previousSpawnLocations = new List<int>();
 
+                //if spawning the group of aliens will go over the limit, decrease the number of enemies being spawned at a time
                 if (aliensPerSpawn > spawnPoints.Length)
                 {
                     aliensPerSpawn = spawnPoints.Length - 1;
@@ -50,10 +51,13 @@ public class GameManager : MonoBehaviour
                 //spawns aliens at a random spawn point
                 for (int i = 0; i < aliensPerSpawn; i++)
                 {
+                    //check if more enemies can be added
                     if (aliensOnScreen < maxAliensOnScreen)
                     {
+                        //increments variables to represent alien that will soon be added
                         aliensOnScreen += 1;
                         int spawnPoint = -1;
+                        //pick a random spawn point to spawn alien at
                         while (spawnPoint == -1)
                         {
                             int randomNumber = UnityEngine.Random.Range(0, spawnPoints.Length - 1);
@@ -63,6 +67,7 @@ public class GameManager : MonoBehaviour
                                 spawnPoint = randomNumber;
                             }
                         }
+                        //spawn alien at spawn point
                         GameObject spawnLocation = spawnPoints[spawnPoint];
                         GameObject newAlien = Instantiate(alien) as GameObject;
                         newAlien.transform.position = spawnLocation.transform.position;
