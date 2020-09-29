@@ -30,4 +30,10 @@ public class Alien : MonoBehaviour
             }
         }
     }
+
+    //destroy alien when shot
+    void OnTriggerEnter (Collider other)
+    {
+        Destroy(gameObject);
+    }
 }

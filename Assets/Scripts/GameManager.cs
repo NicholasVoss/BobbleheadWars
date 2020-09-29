@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public float minSpawnTime;
     public float maxSpawnTime;
     public int aliensPerSpawn;
+
     private int aliensOnScreen = 0;
     private float generatedSpawnTime = 0;
     private float currentSpawnTime = 0;
