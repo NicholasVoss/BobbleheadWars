@@ -1,0 +1,73 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class GameManager : MonoBehaviour
+{
+    public GameObject player;
+    public GameObject[] spawnPoints;
+    public GameObject alien;
+    public int maxAliensOnScreen;
+    public int totalAliens;
+    public float minSpawnTime;
+    public float maxSpawnTime;
+    public int aliensPerSpawn;
+    private int aliensOnScreen = 0;
+    private float generatedSpawnTime = 0;
+    private float currentSpawnTime = 0;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        //find if enough time has passed to spawn an enemy
+        currentSpawnTime += Time.deltaTime;
+        if (currentSpawnTime > generatedSpawnTime)
+        {
+            currentSpawnTime = 0;
+            generatedSpawnTime = UnityEngine.Random.Range(minSpawnTime, maxSpawnTime);
+
+            //check if more enemies can be added without going over the max limit
+            if (aliensPerSpawn > 0 && aliensOnScreen < totalAliens)
+            {
+                List<int> previousSpawnLocations = new List<int>();
+
+                if (aliensPerSpawn > spawnPoints.Length)
+                {
+                    aliensPerSpawn = spawnPoints.Length - 1;
+                }
+
+                aliensPerSpawn = (aliensPerSpawn > totalAliens) ?
+                    aliensPerSpawn - totalAliens : aliensPerSpawn;
+
+                //spawns aliens at a random spawn point
+                for (int i = 0; i < aliensPerSpawn; i++)
+                {
+                    if (aliensOnScreen < maxAliensOnScreen)
+                    {
+                        aliensOnScreen += 1;
+                        int spawnPoint = -1;
+                        while (spawnPoint == -1)
+                        {
+                            int randomNumber = UnityEngine.Random.Range(0, spawnPoints.Length - 1);
+                            if (!previousSpawnLocations.Contains(randomNumber))
+                            {
+                                previousSpawnLocations.Add(randomNumber);
+                                spawnPoint = randomNumber;
+                            }
+                        }
+                        GameObject spawnLocation = spawnPoints[spawnPoint];
+                        GameObject newAlien = Instantiate(alien) as GameObject;
+                        newAlien.transform.position = spawnLocation.transform.position;
+                    }
+                }
+            }                       
+        }        
+    }
+}
