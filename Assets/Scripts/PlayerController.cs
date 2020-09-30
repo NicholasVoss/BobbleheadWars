@@ -11,9 +11,11 @@ public class PlayerController : MonoBehaviour
     public Rigidbody head;
     public LayerMask layerMask;
     private Vector3 currentLookTarget = Vector3.zero;
+
     // Start is called before the first frame update
     void Start()
     {
+        //get the players character controller
         characterController = GetComponent<CharacterController>();
     }
 

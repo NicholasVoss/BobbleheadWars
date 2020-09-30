@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    //variable to hold the space marine object
     public GameObject player;
+    //variables used for spawning enemies
     public GameObject[] spawnPoints;
     public GameObject alien;
     public int maxAliensOnScreen;
