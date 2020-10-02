@@ -6,7 +6,7 @@ public class SoundManager : MonoBehaviour
 {
     //vars for each sound effect
     public AudioClip gunFire;
-    public AudioClip upgradeGunFire;
+    public AudioClip upgradedGunFire;
     public AudioClip hurt;
     public AudioClip alienDeath;
     public AudioClip marineDeath;

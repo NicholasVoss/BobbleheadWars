@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     //variable to hold the space marine object
     public GameObject player;
+
     //variables used for spawning enemies
     public GameObject[] spawnPoints;
     public GameObject alien;
@@ -15,20 +16,51 @@ public class GameManager : MonoBehaviour
     public float minSpawnTime;
     public float maxSpawnTime;
     public int aliensPerSpawn;
-
     private int aliensOnScreen = 0;
     private float generatedSpawnTime = 0;
     private float currentSpawnTime = 0;
 
+    //vars for spawning powerups
+    public GameObject upgradePrefab;
+    public Gun gun;
+    public float upgradeMaxTimeSpawn = 7.5f;
+    private bool spawnedUpgrade = false;
+    private float actualUpgradeTime = 0;
+    private float currentUpgradeTime = 0;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        actualUpgradeTime = UnityEngine.Random.Range(upgradeMaxTimeSpawn - 3.0f, upgradeMaxTimeSpawn);
+        actualUpgradeTime = Mathf.Abs(actualUpgradeTime);
     }
 
     // Update is called once per frame
     void Update()
     {
+        //check if enough time has passed to spawn upgrade
+        currentUpgradeTime += Time.deltaTime;
+        if(currentUpgradeTime > actualUpgradeTime)
+        {
+            //if there isnt a powerup spawned, spawn one
+            if(!spawnedUpgrade)
+            {
+                //select spawn point
+                int randomNumber = UnityEngine.Random.Range(0, spawnPoints.Length - 1);
+                GameObject spawnLocation = spawnPoints[randomNumber];
+
+                //spawn powerup
+                GameObject upgrade = Instantiate(upgradePrefab) as GameObject;
+                Upgrade upgradeScript = upgrade.GetComponent<Upgrade>();
+                upgradeScript.gun = gun;
+                upgrade.transform.position = spawnLocation.transform.position;
+                spawnedUpgrade = true;
+
+                //play sound effect
+                SoundManager.Instance.PlayOneShot(SoundManager.Instance.powerUpAppear);
+            }
+        }
+
         //find if enough time has passed to spawn an enemy
         currentSpawnTime += Time.deltaTime;
         if (currentSpawnTime > generatedSpawnTime)
