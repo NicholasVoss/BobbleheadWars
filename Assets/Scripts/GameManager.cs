@@ -39,6 +39,12 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //dont spawn enemies/powerups when player is dead
+        if(player == null)
+        {
+            return;
+        }
+
         //check if enough time has passed to spawn upgrade
         currentUpgradeTime += Time.deltaTime;
         if(currentUpgradeTime > actualUpgradeTime)

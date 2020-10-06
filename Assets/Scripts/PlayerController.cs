@@ -12,6 +12,16 @@ public class PlayerController : MonoBehaviour
     public LayerMask layerMask;
     private Vector3 currentLookTarget = Vector3.zero;
     public Animator bodyAnimator;
+    public float[] hitForce;
+
+    //vars for taking damage
+    public float timeBetweenHits = 2.5f;
+    private bool isHit = false;
+    private float timeSinceHit = 0;
+    private int hitNumber = -1;
+
+    public Rigidbody marineBody;
+    private bool isDead = false;
 
     // Start is called before the first frame update
     void Start()
@@ -24,10 +34,19 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         //move player character based on player input
-        Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"),
-            0, Input.GetAxis("Vertical"));
+        Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         characterController.SimpleMove(moveDirection * moveSpeed);
 
+        //reset invincibility after taking damage
+        if(isHit)
+        {
+            timeSinceHit += Time.deltaTime;
+            if(timeSinceHit > timeBetweenHits)
+            {
+                isHit = false;
+                timeSinceHit = 0;
+            }
+        }
     }
 
     void FixedUpdate()
@@ -67,5 +86,53 @@ public class PlayerController : MonoBehaviour
         Quaternion rotation = Quaternion.LookRotation(targetPosition - transform.position);
         transform.rotation = Quaternion.Lerp(transform.rotation,
             rotation, Time.deltaTime * 10.0f);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        //check if player collided with enemies
+        Alien alien = other.gameObject.GetComponent<Alien>();
+        if(alien != null)
+        {
+            if(!isHit)
+            {
+                //damage player
+                hitNumber += 1;
+                CameraShake cameraShake = Camera.main.GetComponent<CameraShake>();
+                //check if player will survive the damage
+                if(hitNumber < hitForce.Length) 
+                {
+                    //shake camera
+                    cameraShake.intensity = hitForce[hitNumber];
+                    cameraShake.Shake();
+                }
+                else //kill player
+                {
+                    Die();
+                }
+                isHit = true;
+                //play hit sound effect
+                SoundManager.Instance.PlayOneShot(SoundManager.Instance.hurt);
+            }
+            alien.Die();
+        }
+    }
+
+    public void Die()
+    {
+        //make body fall to the floor
+        bodyAnimator.SetBool("IsMoving", false);
+        marineBody.transform.parent = null;
+        marineBody.isKinematic = false;
+        marineBody.useGravity = true;
+        marineBody.gameObject.GetComponent<CapsuleCollider>().enabled = true;
+        marineBody.gameObject.GetComponent<Gun>().enabled = false;
+
+        //make head fall to the floor
+        Destroy(head.gameObject.GetComponent<HingeJoint>());
+        head.transform.parent = null;
+        head.useGravity = true;
+        SoundManager.Instance.PlayOneShot(SoundManager.Instance.marineDeath);
+        Destroy(gameObject);
     }
 }

@@ -10,7 +10,7 @@ public class CameraShake : MonoBehaviour {
     private Quaternion originRotation;
     private float shakeIntensity = 0;
 
-    void Update() 
+    void FixedUpdate() 
     {
         //generate next position and rotation the camera will shake to
         if (shakeIntensity > 0) 
