@@ -12,6 +12,10 @@ public class Alien : MonoBehaviour
     private float navigationTime = 0;
     private NavMeshAgent agent;
 
+    //vars for killing alien
+    public Rigidbody head;
+    public bool isAlive = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,14 +25,17 @@ public class Alien : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //set destination to target assigned to alien when spawned in GameManager
-        if (target != null)
+        if (isAlive)
         {
-            navigationTime += Time.deltaTime;
-            if (navigationTime > navigationUpdate)
+            //set destination to target assigned to alien when spawned in GameManager
+            if (target != null)
             {
-                agent.destination = target.position;
-                navigationTime = 0;
+                navigationTime += Time.deltaTime;
+                if (navigationTime > navigationUpdate)
+                {
+                    agent.destination = target.position;
+                    navigationTime = 0;
+                }
             }
         }
     }
@@ -36,14 +43,30 @@ public class Alien : MonoBehaviour
     //destroy alien when shot
     void OnTriggerEnter (Collider other)
     {
-        Die();
-        SoundManager.Instance.PlayOneShot(SoundManager.Instance.alienDeath);
+        //make sure Die() hasn't been called before
+        if (isAlive)
+        {
+            Die();
+            SoundManager.Instance.PlayOneShot(SoundManager.Instance.alienDeath);
+        }
     }
 
     public void Die()
     {
+        //kills alien and makes it fall apart
+        isAlive = false;
+        head.GetComponent<Animator>().enabled = false;
+        head.isKinematic = false;
+        head.useGravity = true;
+        head.GetComponent<SphereCollider>().enabled = true;
+        head.gameObject.transform.parent = null;
+        head.velocity = new Vector3(0, 26.0f, 3.0f);
+
+        //removes listeners and destroys object
         OnDestroy.Invoke();
         OnDestroy.RemoveAllListeners();
+        SoundManager.Instance.PlayOneShot(SoundManager.Instance.alienDeath);
+        head.GetComponent<SelfDestruct>().Initiate();
         Destroy(gameObject);
     }
 }
