@@ -20,14 +20,21 @@ public class PlayerController : MonoBehaviour
     private float timeSinceHit = 0;
     private int hitNumber = -1;
 
+    //vars for killing marine
     public Rigidbody marineBody;
     private bool isDead = false;
+
+    //var for particles
+    private DeathParticles deathParticles;
 
     // Start is called before the first frame update
     void Start()
     {
         //get the players character controller
         characterController = GetComponent<CharacterController>();
+
+        //find death particles
+        deathParticles = gameObject.GetComponentInChildren<DeathParticles>();
     }
 
     // Update is called once per frame
@@ -128,11 +135,12 @@ public class PlayerController : MonoBehaviour
         marineBody.gameObject.GetComponent<CapsuleCollider>().enabled = true;
         marineBody.gameObject.GetComponent<Gun>().enabled = false;
 
-        //make head fall to the floor
+        //make head fall to the floor and make blood splatter
         Destroy(head.gameObject.GetComponent<HingeJoint>());
         head.transform.parent = null;
         head.useGravity = true;
         SoundManager.Instance.PlayOneShot(SoundManager.Instance.marineDeath);
+        deathParticles.Activate();
         Destroy(gameObject);
     }
 }

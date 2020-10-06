@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour
     private float actualUpgradeTime = 0;
     private float currentUpgradeTime = 0;
 
+    public GameObject deathFloor;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -120,6 +122,9 @@ public class GameManager : MonoBehaviour
                             newAlien.transform.position.y, player.transform.position.z);
                         newAlien.transform.LookAt(targetRotation);
                         alienScript.OnDestroy.AddListener(AlienDestroyed);
+
+                        //sets death floor for particles
+                        alienScript.GetDeathParticles().SetDeathFloor(deathFloor);
                     }
                 }
             }                       
