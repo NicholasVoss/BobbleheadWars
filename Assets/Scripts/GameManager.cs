@@ -29,7 +29,11 @@ public class GameManager : MonoBehaviour
     private float actualUpgradeTime = 0;
     private float currentUpgradeTime = 0;
 
+    //var to use with particle effect
     public GameObject deathFloor;
+
+    //var to hold arena's animator
+    public Animator arenaAnimator;
 
     // Start is called before the first frame update
     void Start()
@@ -131,9 +135,23 @@ public class GameManager : MonoBehaviour
         }        
     }
 
+    //update vars when an alien is destroyed
     public void AlienDestroyed()
     {
         aliensOnScreen -= 1;
         totalAliens -= 1;
+
+        //if all aliens have been destroyed, end the game
+        if(totalAliens == 0)
+        {
+            Invoke("endGame", 2.0f);
+        }
+    }
+
+    //start the end sequence the game when player wins
+    private void endGame()
+    {
+        SoundManager.Instance.PlayOneShot(SoundManager.Instance.elevatorArrived);
+        arenaAnimator.SetTrigger("PlayerWon");
     }
 }

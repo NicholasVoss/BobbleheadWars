@@ -133,6 +133,7 @@ public class PlayerController : MonoBehaviour
         marineBody.isKinematic = false;
         marineBody.useGravity = true;
         marineBody.gameObject.GetComponent<CapsuleCollider>().enabled = true;
+        marineBody.gameObject.GetComponent<Gun>().CancelInvoke("fireBullet");
         marineBody.gameObject.GetComponent<Gun>().enabled = false;
 
         //make head fall to the floor and make blood splatter

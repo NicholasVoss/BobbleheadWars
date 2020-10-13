@@ -16,11 +16,13 @@ public class Projectile : MonoBehaviour
 
     private void OnBecameInvisible()
     {
+        //destroy projectile if it goes off screen
         Destroy(gameObject);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        //destroy projectile when it collides with an object
         Destroy(gameObject);
     }
 }

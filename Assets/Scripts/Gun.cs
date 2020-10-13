@@ -33,11 +33,13 @@ public class Gun : MonoBehaviour
                 InvokeRepeating("fireBullet", 0f, 0.1f);
             }
         }
+        //stop shooting if mouse isn't pressed
         if (Input.GetMouseButtonUp(0))
         {
             CancelInvoke("fireBullet");
         }
 
+        //disable powerup if a certain time has passed
         currentTime += Time.deltaTime;
         if(currentTime > upgradeTime && isUpgraded == true)
         {
@@ -47,6 +49,7 @@ public class Gun : MonoBehaviour
 
     void fireBullet()
     {
+        //fire bullet
         Rigidbody bullet = createBullet();
         bullet.velocity = transform.parent.forward * 100;
 
@@ -81,6 +84,7 @@ public class Gun : MonoBehaviour
 
     public void UpgradeGun()
     {
+        //upgrade gun to shoot 3 bullets at once
         isUpgraded = true;
         currentTime = 0;
     }

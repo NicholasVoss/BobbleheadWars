@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -46,7 +47,7 @@ public class Alien : MonoBehaviour
     void OnTriggerEnter (Collider other)
     {
         //make sure Die() hasn't been called before
-        if (isAlive)
+        if (isAlive && other.gameObject.layer == LayerMask.NameToLayer("Bullet"))
         {
             Die();
             SoundManager.Instance.PlayOneShot(SoundManager.Instance.alienDeath);
